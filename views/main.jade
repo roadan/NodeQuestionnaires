@@ -1,0 +1,35 @@
+
+section(class="featured")
+  div(class="content-wrapper")
+    hgroup(class="title")
+      h1=title
+      h2 Welcome to the Language Data Collector
+
+      if (!everyauth.loggedIn)
+        .sidebarbox 
+        h3 You are NOT Authenticated
+        p To see how this example works, please log in using the following link:
+        #azureacs-login
+            a(href='/auth/azureacs', style='border: 0px') Go to authentication server.
+
+      else
+        h2 You are Authenticated
+          if (everyauth.azureacs)
+            if (JSON.stringify(everyauth.azureacs.user.azureacs['http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider']) != '"uri:WindowsLiveID"')
+              h3 Azure ACS User Data
+              h4 Email Provider
+              p= JSON.stringify(everyauth.azureacs.user.azureacs['http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider'])
+              h4 User Name
+              p= JSON.stringify(everyauth.azureacs.user.azureacs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'])
+              h4 Email Address
+              p= JSON.stringify(everyauth.azureacs.user.azureacs['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'])
+            else
+              h3 Azure ACS User Data
+              h4 Email Provider (*)
+              p= JSON.stringify(everyauth.azureacs.user.azureacs['http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider'])  
+              h4 (*)Windows live does not provide username and emailname information, you have to find a workaround to show in your application.
+              h3
+              p
+              p
+              a(href='/logout') Logout
+    .clear    
